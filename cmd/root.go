@@ -18,9 +18,12 @@ var (
 	RootCmd = &cobra.Command{
 		Use:   "link",
 		Short: "Link is a CLI to Hertek Connect Link",
-		Long:  `LInk is a CLI to Hertek Connect Link - a valid Integrator account with Hertek Connect is required.`,
+		Long:  `Link is a CLI to Hertek Connect Link - a valid Integrator account with Hertek Connect is required.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			// TODO
+			if len(args) == 0 {
+				cmd.Help()
+				os.Exit(0)
+			}
 		},
 	}
 
