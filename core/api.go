@@ -57,10 +57,19 @@ func (api *ConnectLinkAPI) FetchInstallations() (string, error) {
 		return "", err
 	}
 
-	// var installations []Installation
-	// resp.ToJSON(&installations)
+	result, _ := resp.ToString()
+	return result, nil
+}
 
-	// return installations, nil
+// FetchZones fetches an up-to-date list of zones for the specified installation id
+func (api *ConnectLinkAPI) FetchZones(installationID int) (string, error) {
+	api.RefreshToken()
+
+	resp, err := get(api, fmt.Sprintf("/installations/%d/zones", installationID))
+	if err != nil {
+		return "", err
+	}
+
 	result, _ := resp.ToString()
 	return result, nil
 }

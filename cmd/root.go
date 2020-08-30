@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/ariejan/link/core"
 	homedir "github.com/mitchellh/go-homedir"
@@ -91,4 +92,13 @@ func prettyPrintJSON(data string) {
 	fmt.Println("==> Formatted JSON response: ")
 	fmt.Print(string(formatted.Bytes()))
 	fmt.Println()
+}
+
+func parseIntArg(arg string) int {
+	result, err := strconv.Atoi(arg)
+	if err != nil {
+		er(err)
+	}
+
+	return result
 }
