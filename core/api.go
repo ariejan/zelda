@@ -93,6 +93,21 @@ func (api *ConnectLinkAPI) FetchElements(installationID, zoneID int) (string, er
 	return result, nil
 }
 
+// FetchAlerts fetches an up-to-date list of alerts for the specified installationID
+func (api *ConnectLinkAPI) FetchAlerts(installationID int) (string, error) {
+	api.RefreshToken()
+
+	resp, err := get(api, fmt.Sprintf("/installations/%d/alerts", installationID))
+	if err != nil {
+		return "", err
+	}
+
+	validateStatusCode(resp, []int{200})
+
+	result, _ := resp.ToString()
+	return result, nil
+}
+
 // RefreshToken generates a new token with Connect Link when necessary
 func (api *ConnectLinkAPI) RefreshToken() error {
 	if time.Now().After(api.validUntil) {
