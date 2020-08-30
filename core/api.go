@@ -48,6 +48,23 @@ func (api *ConnectLinkAPI) Ping() (string, error) {
 	return result, nil
 }
 
+// FetchInstallations fetches an up-to-date list of installations
+func (api *ConnectLinkAPI) FetchInstallations() (string, error) {
+	api.RefreshToken()
+
+	resp, err := get(api, "/installations")
+	if err != nil {
+		return "", err
+	}
+
+	// var installations []Installation
+	// resp.ToJSON(&installations)
+
+	// return installations, nil
+	result, _ := resp.ToString()
+	return result, nil
+}
+
 // RefreshToken generates a new token with Connect Link when necessary
 func (api *ConnectLinkAPI) RefreshToken() error {
 	if time.Now().After(api.validUntil) {

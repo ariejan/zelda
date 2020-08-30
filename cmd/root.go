@@ -1,7 +1,10 @@
 package cmd
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/ariejan/link/core"
@@ -75,4 +78,17 @@ func initConfig() {
 		viper.GetString("link.username"),
 		viper.GetString("link.password"),
 	)
+}
+
+func prettyPrintJSON(data string) {
+	var formatted bytes.Buffer
+	err := json.Indent(&formatted, []byte(data), "", "  ")
+	if err != nil {
+		log.Println("JSON parse error: ", err)
+		os.Exit(1)
+	}
+
+	fmt.Println("==> Formatted JSON response: ")
+	fmt.Print(string(formatted.Bytes()))
+	fmt.Println()
 }
