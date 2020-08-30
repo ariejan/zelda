@@ -11,7 +11,8 @@ var pingCmd = &cobra.Command{
 	Short: "Ping Hertek Connect Link to validate connectivity and authentication",
 	Long:  `This will authenticate with the Hertek Connect Link API and send call the ping endpoint to validate you can successfully use the API`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Sending PING...")
+
+		fmt.Println("--> PING")
 
 		response, err := API.Ping()
 		if err != nil {

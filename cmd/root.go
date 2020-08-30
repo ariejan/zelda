@@ -64,7 +64,7 @@ func initConfig() {
 		fmt.Println("Cannot find config file at ~/.config/link.yaml. Please check the README.")
 		os.Exit(1)
 	} else {
-		fmt.Printf("Using config found at: %s\n", viper.ConfigFileUsed())
+		fmt.Printf("--- Using config found at: %s\n", viper.ConfigFileUsed())
 	}
 
 	API = core.NewConnectLinkAPI(

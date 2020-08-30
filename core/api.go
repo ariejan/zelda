@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/imroc/req"
-	"github.com/spf13/viper"
 )
 
 const (
@@ -27,7 +26,6 @@ type ConnectLinkAPI struct {
 
 // NewConnectLinkAPI instance with the specified server and credentials
 func NewConnectLinkAPI(serverURL, username, password string) *ConnectLinkAPI {
-	fmt.Println("server:", viper.GetString("link.server_url"))
 	return &ConnectLinkAPI{
 		ServerURL:  serverURL,
 		APIVersion: apiVersion,
@@ -85,7 +83,7 @@ func get(api *ConnectLinkAPI, path string) (*req.Resp, error) {
 	endpointURL := endPointURL(api.ServerURL, api.APIPath, api.APIVersion, path)
 	header := apiHeader(api.token)
 
-	fmt.Printf(" > GET: %s\n", endpointURL)
+	fmt.Printf("~~> GET: %s\n", endpointURL)
 	return req.Get(endpointURL, header)
 }
 
@@ -93,7 +91,7 @@ func post(api *ConnectLinkAPI, path string, any interface{}) (*req.Resp, error) 
 	endpointURL := endPointURL(api.ServerURL, api.APIPath, api.APIVersion, path)
 	header := apiHeader(api.token)
 
-	fmt.Printf(" > POST: %s\n", endpointURL)
+	fmt.Printf("~~> POST: %s\n", endpointURL)
 	return req.Post(endpointURL, header, req.BodyJSON(&any))
 }
 
