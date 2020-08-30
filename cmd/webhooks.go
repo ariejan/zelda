@@ -70,10 +70,27 @@ var webhookCreateCmd = &cobra.Command{
 	},
 }
 
+var webhookDeleteCmd = &cobra.Command{
+	Use:     "delete [installationID] [webhookID]",
+	Aliases: []string{"d", "del"},
+	Short:   "Delete the specified webhook",
+	Args:    cobra.ExactArgs(2),
+	Run: func(cmd *cobra.Command, args []string) {
+		installationID := parseIntArg(args[0])
+		webhookID := parseIntArg(args[1])
+
+		_, err := API.DeleteWebhook(installationID, webhookID)
+		if err != nil {
+			er(err)
+		}
+	},
+}
+
 func init() {
 	webhooksRootCmd.AddCommand(webhooksGetCmd)
 	webhooksRootCmd.AddCommand(webhookGetCmd)
 	webhooksRootCmd.AddCommand(webhookCreateCmd)
+	webhooksRootCmd.AddCommand(webhookDeleteCmd)
 
 	RootCmd.AddCommand(webhooksRootCmd)
 }
