@@ -86,11 +86,30 @@ var webhookDeleteCmd = &cobra.Command{
 	},
 }
 
+var webhookTestCmd = &cobra.Command{
+	Use:     "test [installationID] [webhookID]",
+	Aliases: []string{"t", "tst"},
+	Short:   "Fire a test event for the specified webhook",
+	Args:    cobra.ExactArgs(2),
+	Run: func(cmd *cobra.Command, args []string) {
+		installationID := parseIntArg(args[0])
+		webhookID := parseIntArg(args[1])
+
+		response, err := API.TestWebhook(installationID, webhookID)
+		if err != nil {
+			er(err)
+		}
+
+		prettyPrintJSON(response)
+	},
+}
+
 func init() {
 	webhooksRootCmd.AddCommand(webhooksGetCmd)
 	webhooksRootCmd.AddCommand(webhookGetCmd)
 	webhooksRootCmd.AddCommand(webhookCreateCmd)
 	webhooksRootCmd.AddCommand(webhookDeleteCmd)
+	webhooksRootCmd.AddCommand(webhookTestCmd)
 
 	RootCmd.AddCommand(webhooksRootCmd)
 }

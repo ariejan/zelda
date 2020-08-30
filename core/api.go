@@ -170,6 +170,21 @@ func (api *ConnectLinkAPI) DeleteWebhook(installationID, webhookID int) (string,
 	return result, nil
 }
 
+// TestWebhook requests a test event to be fired for this webhook
+func (api *ConnectLinkAPI) TestWebhook(installationID, webhookID int) (string, error) {
+	api.RefreshToken()
+
+	resp, err := postWithoutBody(api, fmt.Sprintf("/installation/%d/webhook/%d/test", installationID, webhookID))
+	if err != nil {
+		return "", err
+	}
+
+	validateStatusCode(resp, []int{201})
+
+	result, _ := resp.ToString()
+	return result, nil
+}
+
 // RefreshToken generates a new token with Connect Link when necessary
 func (api *ConnectLinkAPI) RefreshToken() error {
 	if time.Now().After(api.validUntil) {
@@ -215,6 +230,14 @@ func post(api *ConnectLinkAPI, path string, any interface{}) (*req.Resp, error) 
 
 	fmt.Printf("~~> POST: %s\n", endpointURL)
 	return req.Post(endpointURL, header, req.BodyJSON(&any))
+}
+
+func postWithoutBody(api *ConnectLinkAPI, path string) (*req.Resp, error) {
+	endpointURL := endPointURL(api.ServerURL, api.APIPath, api.APIVersion, path)
+	header := apiHeader(api.token)
+
+	fmt.Printf("~~> POST: %s\n", endpointURL)
+	return req.Post(endpointURL, header)
 }
 
 func delete(api *ConnectLinkAPI, path string) (*req.Resp, error) {
