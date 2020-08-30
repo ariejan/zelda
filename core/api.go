@@ -57,6 +57,8 @@ func (api *ConnectLinkAPI) FetchInstallations() (string, error) {
 		return "", err
 	}
 
+	validateStatusCode(resp, []int{200})
+
 	result, _ := resp.ToString()
 	return result, nil
 }
@@ -69,6 +71,8 @@ func (api *ConnectLinkAPI) FetchZones(installationID int) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	validateStatusCode(resp, []int{200})
 
 	result, _ := resp.ToString()
 	return result, nil
