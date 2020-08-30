@@ -108,6 +108,53 @@ func (api *ConnectLinkAPI) FetchAlerts(installationID int) (string, error) {
 	return result, nil
 }
 
+// FetchWebhooks fetches an up-to-date list of your webhooks for the installation
+func (api *ConnectLinkAPI) FetchWebhooks(installationID int) (string, error) {
+	api.RefreshToken()
+
+	resp, err := get(api, fmt.Sprintf("/installation/%d/webhooks", installationID))
+	if err != nil {
+		return "", err
+	}
+
+	validateStatusCode(resp, []int{200})
+
+	result, _ := resp.ToString()
+	return result, nil
+}
+
+// FetchWebhook fetches info about a specific webhook
+func (api *ConnectLinkAPI) FetchWebhook(installationID, webhookID int) (string, error) {
+	api.RefreshToken()
+
+	resp, err := get(api, fmt.Sprintf("/installation/%d/webhook/%d", installationID, webhookID))
+	if err != nil {
+		return "", err
+	}
+
+	validateStatusCode(resp, []int{200})
+
+	result, _ := resp.ToString()
+	return result, nil
+}
+
+// CreateWebhook creates a new webhook
+func (api *ConnectLinkAPI) CreateWebhook(installationID int, endpoint, token string) (string, error) {
+	api.RefreshToken()
+
+	resp, err := post(api, fmt.Sprintf("/installation/%d/webhooks", installationID), &WebhookRequest{
+		Endpoint: endpoint,
+	})
+	if err != nil {
+		return "", err
+	}
+
+	validateStatusCode(resp, []int{201})
+
+	result, _ := resp.ToString()
+	return result, nil
+}
+
 // RefreshToken generates a new token with Connect Link when necessary
 func (api *ConnectLinkAPI) RefreshToken() error {
 	if time.Now().After(api.validUntil) {

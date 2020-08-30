@@ -18,3 +18,9 @@ type AuthenticationResponse struct {
 	Token      string
 	ValidUntil time.Time
 }
+
+// WebhookRequest is used when creating a new webhook
+type WebhookRequest struct {
+	Endpoint string `json:"endpoint"`
+	//Token string `json:"token"`
+}
