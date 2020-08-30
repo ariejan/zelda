@@ -63,11 +63,26 @@ func (api *ConnectLinkAPI) FetchInstallations() (string, error) {
 	return result, nil
 }
 
-// FetchZones fetches an up-to-date list of zones for the specified installation id
+// FetchZones fetches an up-to-date list of zones for the specified installationID
 func (api *ConnectLinkAPI) FetchZones(installationID int) (string, error) {
 	api.RefreshToken()
 
 	resp, err := get(api, fmt.Sprintf("/installations/%d/zones", installationID))
+	if err != nil {
+		return "", err
+	}
+
+	validateStatusCode(resp, []int{200})
+
+	result, _ := resp.ToString()
+	return result, nil
+}
+
+// FetchElements fetches an up-to-date list of elements for the specified installationID and zoneID
+func (api *ConnectLinkAPI) FetchElements(installationID, zoneID int) (string, error) {
+	api.RefreshToken()
+
+	resp, err := get(api, fmt.Sprintf("/installations/%d/zones/%d/elements", installationID, zoneID))
 	if err != nil {
 		return "", err
 	}
