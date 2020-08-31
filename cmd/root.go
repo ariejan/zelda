@@ -8,7 +8,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ariejan/link/core"
+	"github.com/ariejan/zelda/core"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 
@@ -20,9 +20,9 @@ var (
 
 	// RootCmd is where CLI commands come in
 	RootCmd = &cobra.Command{
-		Use:   "link",
-		Short: "Link is a CLI to Hertek Connect Link",
-		Long:  `Link is a CLI to Hertek Connect Link - a valid Integrator account with Hertek Connect is required.`,
+		Use:   "zelda",
+		Short: "Zelda is a CLI to Hertek Connect Link",
+		Long:  `Zelda is a CLI to Hertek Connect Link - a valid Integrator account with Hertek Connect is required.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) == 0 {
 				cmd.Help()
@@ -45,7 +45,7 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.config/link.yaml)")
+	RootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.config/zelda.yaml)")
 }
 
 func er(msg interface{}) {
@@ -63,21 +63,21 @@ func initConfig() {
 		}
 
 		viper.AddConfigPath(configHome)
-		viper.SetConfigName("link")
+		viper.SetConfigName("zelda")
 		viper.SetConfigType("yaml")
 	}
 
 	if err := viper.ReadInConfig(); err != nil {
-		fmt.Println("Cannot find config file at ~/.config/link.yaml. Please check the README.")
+		fmt.Println("Cannot find config file at ~/.config/zelda.yaml. Please check the README.")
 		os.Exit(1)
 	} else {
 		fmt.Printf("--- Using config found at: %s\n", viper.ConfigFileUsed())
 	}
 
 	API = core.NewConnectLinkAPI(
-		viper.GetString("link.server_url"),
-		viper.GetString("link.username"),
-		viper.GetString("link.password"),
+		viper.GetString("zelda.server_url"),
+		viper.GetString("zelda.username"),
+		viper.GetString("zelda.password"),
 	)
 }
 

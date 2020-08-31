@@ -1,4 +1,4 @@
-# Link
+# Zelda
 
 This is a cli utility for Hertek Connect Link.
 
@@ -10,19 +10,19 @@ This is a work-in-progress, thing may or may not work. Do not use for production
 
 This should work on any Linux/BSD/macos system a recent Go version. It is developed using Go 1.15.
 
-To setup your credentials for Connect Link, you'll need to make a config file at `~/.config/link.yaml` 
+To setup your credentials for Connect Link, you'll need to make a config file at `~/.config/zelda.yaml` 
 with the following content:
 
 ```yaml
-link:
+zelda:
   server_url: https://api.example.com
   username: <connect-link-integrator-username>
   password: <connect-link-integrator-password>
 ```
 
-Make sure to make this file readable only by you with `chmod 600 ~/.config/link.yaml`.
+Make sure to make this file readable only by you with `chmod 600 ~/.config/zelda.yaml`.
 
-When you have your configuration setup, you can test your setup with: `link ping`.
+When you have your configuration setup, you can test your setup with: `zelda ping`.
 
 # Disclaimer
 

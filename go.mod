@@ -1,4 +1,4 @@
-module github.com/ariejan/link
+module github.com/ariejan/zelda
 
 go 1.15
 
