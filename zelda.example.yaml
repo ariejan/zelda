@@ -1,0 +1,4 @@
+zelda:
+  server_url: httsp://api.hertekconnect.nl
+  username: your-email@example.com
+  password: secret
