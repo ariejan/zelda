@@ -144,6 +144,7 @@ func (api *ConnectLinkAPI) CreateWebhook(installationID int, endpoint, token str
 
 	resp, err := post(api, fmt.Sprintf("/installations/%d/webhooks", installationID), &WebhookRequest{
 		Endpoint: endpoint,
+		Token:    token,
 	})
 	if err != nil {
 		return "", err

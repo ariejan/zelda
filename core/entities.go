@@ -22,5 +22,5 @@ type AuthenticationResponse struct {
 // WebhookRequest is used when creating a new webhook
 type WebhookRequest struct {
 	Endpoint string `json:"endpoint"`
-	//Token string `json:"token"`
+	Token    string `json:"token"`
 }
