@@ -99,8 +99,6 @@ var webhookTestCmd = &cobra.Command{
 		if err != nil {
 			er(err)
 		}
-
-		prettyPrintJSON(response)
 	},
 }
 
