@@ -112,7 +112,7 @@ func (api *ConnectLinkAPI) FetchAlerts(installationID int) (string, error) {
 func (api *ConnectLinkAPI) FetchWebhooks(installationID int) (string, error) {
 	api.RefreshToken()
 
-	resp, err := get(api, fmt.Sprintf("/installation/%d/webhooks", installationID))
+	resp, err := get(api, fmt.Sprintf("/installations/%d/webhooks", installationID))
 	if err != nil {
 		return "", err
 	}
@@ -127,7 +127,7 @@ func (api *ConnectLinkAPI) FetchWebhooks(installationID int) (string, error) {
 func (api *ConnectLinkAPI) FetchWebhook(installationID, webhookID int) (string, error) {
 	api.RefreshToken()
 
-	resp, err := get(api, fmt.Sprintf("/installation/%d/webhook/%d", installationID, webhookID))
+	resp, err := get(api, fmt.Sprintf("/installations/%d/webhooks/%d", installationID, webhookID))
 	if err != nil {
 		return "", err
 	}
@@ -142,7 +142,7 @@ func (api *ConnectLinkAPI) FetchWebhook(installationID, webhookID int) (string, 
 func (api *ConnectLinkAPI) CreateWebhook(installationID int, endpoint, token string) (string, error) {
 	api.RefreshToken()
 
-	resp, err := post(api, fmt.Sprintf("/installation/%d/webhooks", installationID), &WebhookRequest{
+	resp, err := post(api, fmt.Sprintf("/installations/%d/webhooks", installationID), &WebhookRequest{
 		Endpoint: endpoint,
 	})
 	if err != nil {
@@ -159,7 +159,7 @@ func (api *ConnectLinkAPI) CreateWebhook(installationID int, endpoint, token str
 func (api *ConnectLinkAPI) DeleteWebhook(installationID, webhookID int) (string, error) {
 	api.RefreshToken()
 
-	resp, err := delete(api, fmt.Sprintf("/installation/%d/webhook/%d", installationID, webhookID))
+	resp, err := delete(api, fmt.Sprintf("/installations/%d/webhook/%d", installationID, webhookID))
 	if err != nil {
 		return "", err
 	}
@@ -174,7 +174,7 @@ func (api *ConnectLinkAPI) DeleteWebhook(installationID, webhookID int) (string,
 func (api *ConnectLinkAPI) TestWebhook(installationID, webhookID int) (string, error) {
 	api.RefreshToken()
 
-	resp, err := postWithoutBody(api, fmt.Sprintf("/installation/%d/webhook/%d/test", installationID, webhookID))
+	resp, err := postWithoutBody(api, fmt.Sprintf("/installations/%d/webhooks/%d/test", installationID, webhookID))
 	if err != nil {
 		return "", err
 	}
