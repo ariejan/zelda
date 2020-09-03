@@ -159,7 +159,7 @@ func (api *ConnectLinkAPI) CreateWebhook(installationID int, endpoint, token str
 func (api *ConnectLinkAPI) DeleteWebhook(installationID, webhookID int) (string, error) {
 	api.RefreshToken()
 
-	resp, err := delete(api, fmt.Sprintf("/installations/%d/webhook/%d", installationID, webhookID))
+	resp, err := delete(api, fmt.Sprintf("/installations/%d/webhooks/%d", installationID, webhookID))
 	if err != nil {
 		return "", err
 	}
