@@ -95,7 +95,7 @@ var webhookTestCmd = &cobra.Command{
 		installationID := parseIntArg(args[0])
 		webhookID := parseIntArg(args[1])
 
-		response, err := API.TestWebhook(installationID, webhookID)
+		_, err := API.TestWebhook(installationID, webhookID)
 		if err != nil {
 			er(err)
 		}
