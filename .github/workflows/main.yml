@@ -20,10 +20,20 @@ jobs:
             goarch: amd64
     steps:
     - uses: actions/checkout@v2
+
+    - name: Set APP_VERSION env
+      run: echo ::set-env name=APP_VERSION::$(echo ${GITHUB_REF} | rev | cut -d'/' -f 1 | rev )
+    - name: Set BUILD_TIME env
+      run: echo ::set-env name=BUILD_TIME::$(date)  
+    - name: Environment Printer
+      uses: managedkaos/print-env@v1.0        
+
     - uses: wangyoucao577/go-release-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
         goversion: "https://dl.google.com/go/go1.15.linux-amd64.tar.gz"
+        build_flags: -v
+        ldflags: -X "github.com/ariejan/zelda/cmd.AppVersion=${{ env.APP_VERSION }}" -X "github.com/ariejan/zelda/cmd.BuildTime=${{ env.BUILD_TIME }}"    
         extra_files: LICENSE README.md zelda.example.yaml
