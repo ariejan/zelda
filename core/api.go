@@ -200,6 +200,23 @@ func (api *ConnectLinkAPI) RefreshToken() error {
 	return nil
 }
 
+// FetchToken performs a regular /auth/request_token request and returns the raw JSON result.
+func (api *ConnectLinkAPI) FetchToken() (string, error) {
+	resp, err := post(api, "/auth/request_token", &AuthenticationRequest{
+		Username: api.Username,
+		Password: api.Password,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	validateStatusCode(resp, []int{200})
+
+	result, _ := resp.ToString()
+	return result, nil
+}
+
 // Authenticate with Connect Link to retrieve a new token
 func (api *ConnectLinkAPI) Authenticate() (*AuthenticationResponse, error) {
 	resp, err := post(api, "/auth/request_token", &AuthenticationRequest{
