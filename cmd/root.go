@@ -1,22 +1,21 @@
 package cmd
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 
 	"github.com/ariejan/zelda/core"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
-
+    "github.com/tidwall/pretty"
 	"github.com/spf13/cobra"
 )
 
 var (
 	cfgFile string
+	enableColor bool
+	disableColor bool
 
 	// RootCmd is where CLI commands come in
 	RootCmd = &cobra.Command{
@@ -45,7 +44,9 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	RootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.config/zelda.yaml)")
+	RootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "f", "", "config file (default is $HOME/.config/zelda.yaml)")
+	RootCmd.PersistentFlags().BoolVarP(&enableColor, "color", "c", true, "enable colour output of JSON (default: true)")
+	RootCmd.PersistentFlags().BoolVarP(&disableColor, "no-color", "", false, "disable colour output of JSON (default: false)")
 }
 
 func er(msg interface{}) {
@@ -82,15 +83,14 @@ func initConfig() {
 }
 
 func prettyPrintJSON(data string) {
-	var formatted bytes.Buffer
-	err := json.Indent(&formatted, []byte(data), "", "  ")
-	if err != nil {
-		log.Println("JSON parse error: ", err)
-		os.Exit(1)
+	result := pretty.Pretty([]byte(data))
+
+	if (enableColor && !disableColor) {
+		result = pretty.Color(result, nil)
 	}
 
-	fmt.Println("==> Formatted JSON response: ")
-	fmt.Print(string(formatted.Bytes()))
+	fmt.Println("==> JSON response: ")
+	fmt.Println(string(result))
 	fmt.Println()
 }
 
